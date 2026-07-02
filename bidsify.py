@@ -14,6 +14,7 @@
 # =============================================================================
 # Authors: A.-Sophie Dubarry
 
+import argparse
 import os
 import configparser
 import json
@@ -21,23 +22,19 @@ from datetime import datetime
 from mne_bids import BIDSPath, write_raw_bids
 import mne
 
-# Read the configuration file and extract required paths
-def read_config(config_file):
+# Read the configuration file from input_path and extract config sections
+def read_config(input_path):
+    config_file = os.path.join(input_path, "bids_configurator.txt")
+    if not os.path.exists(config_file):
+        raise FileNotFoundError(
+            f"Configuration file 'bids_configurator.txt' not found in input path '{input_path}'."
+        )
+
     config = configparser.ConfigParser()
     config.optionxform = str  # Preserve case for keys
     config.read(config_file)
 
-    try:
-        input_path = config.get("DEFAULT", "input_path")
-    except KeyError:
-        raise KeyError("The 'input_path' key is missing in the configuration file.")
-
-    try:
-        output_path = config.get("DEFAULT", "output_path")
-    except KeyError:
-        raise KeyError("The 'output_path' key is missing in the configuration file.")
-
-    return input_path, output_path, config
+    return config
 
 # Check for conflicting keywords across config sections
 # This helps avoid ambiguity in how files are categorized
