@@ -1,0 +1,76 @@
+# Example dataset configuration: copy this file into your input dataset directory
+# as bids_configurator.toml, then customize the rules and metadata for that dataset.
+
+# Supply input and output directories using --input and --output when running bidsify.py.
+
+# General Information to be Added Manually
+# ****************************************
+
+[DATASET_DESCRIPTION]
+Name = "ADOEFFORT"
+Authors = ["A. Adeli-Koudehi", "A.-S Dubarry", "M Teschl", "M-H Grosbras", "S. Luchini"]
+DatasetType = "raw"
+
+# EEG Configuration
+InstitutionName = "CRPN - UMR 7077"
+InstitutionAddress = "Aix-Marseille University / CNRS, CRPN - UMR 7077, Equipe DISC, 3 Place Victor Hugo, 13331 Marseille cedex 3, France"
+ManufacturersModelName = "ActiveTwo"
+
+# eeg_reference = "Cz"
+# eeg_ground = "Fpz"
+# EEGPlacementScheme = "10-20"
+# power_line_frequency = 50
+# SoftwareFilters = "n/a"
+# SamplingFrequency = 512
+# RecordingType = "continuous"
+
+SubjectArtefactDescription = "n/a"
+
+# --- Channel classification --- Required for every dataset.
+[CHANNELS]
+# Example only: choose the MNE built-in montage matching your actual electrode
+# layout AND channel names. There is no default montage.
+montage = "biosemi64"
+# Optional known external channels. Each table requires a name; type defaults to
+# "misc". Supported types (case-insensitive): eog, ecg, emg, gsr, resp, misc.
+# Omit description to keep MNE-BIDS' normal description for the selected type.
+# Recognized Status/trigger channels always retain their trigger type.
+
+[[CHANNELS.external]]
+name = "VEOG"
+type = "eog"
+description = "Vertical electrooculogram"
+
+[[CHANNELS.external]]
+name = "EXG6"
+description = "External channel placed behind ear"
+
+[[CHANNELS.external]]
+name = "EXG7"
+
+# --- Tasks --- WARNING : prevent using special characters in task names (Unallowed `-`, `_`, or `/` )
+[task_NbackRolling]
+description = "N-back task with rolling strategy"
+keywords = ["rolling"]
+
+[task_NbackStatic]
+description = "N-back task with static strategy"
+keywords = ["static"]
+
+[task_AxcptProactive]
+description = "AX-CPT task with proactive strategy"
+keywords = ["proactive"]
+
+[task_AxcptReactive]
+description = "AX-CPT task with reactive strategy"
+keywords = ["reactive"]
+
+# --- Runs --- Use consecutive table names: run_1, run_2, ...
+[run_1]
+description = "Training session"
+keywords = ["train"]
+
+[run_2]
+description = "Testing session"
+keywords = ["test"]
+
