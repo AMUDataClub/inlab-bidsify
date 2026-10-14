@@ -14,7 +14,10 @@ This project uses [`uv`](https://github.com/astral-sh/uv) for dependency and vir
 Install `uv` (if not already installed):
 
 ```bash
+# on macOS and Linux
 curl -Ls https://astral.sh/uv/install.sh | sh
+# on Windows
+powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
 ````
 
 Create a virtual environment :
@@ -38,13 +41,13 @@ uv pip install -r requirements.txt
 
 ## 🚀 Usage
 
-1. Place your `.bdf` EEG files in subject-specific folders inside the directory defined as `input_path`.
-2. Create a `bids_configurator.txt` file (see example below).
+1. Place your `.bdf` EEG files in subject-specific folders inside the directory defined as `input_path`
+2. Create a `bids_configurator.txt` file in the input folder (see example below)
 3. Run the conversion script:
 
 Activate the virtual environment if it is not activated (see above) and execute:
 ```bash
-python bidsify.py
+python bidsify.py --input_path /path/to/input --output_path /path/to/output
 ```
 
 Converted data will be saved to the BIDS directory defined by `output_path`.
@@ -52,9 +55,6 @@ Converted data will be saved to the BIDS directory defined by `output_path`.
 ## 📝 Example `bids_configurator.txt`
 
 ```ini
-[DEFAULT]
-input_path = /path/to/raw_data
-output_path = /path/to/bids_dataset
 
 [task_restingtask]
 keywords = rest, baseline
@@ -113,10 +113,6 @@ DatasetType = raw
 * Run identifiers **must** be numeric and consecutive (`run_1`, `run_2`, ...)
 * The script will only update `dataset_description.json` if it already exists — it will not create one from scratch.
 * Only `.bdf` files are supported.
-
-## 👨‍💻 Author
-
-Developed by [A.-Sophie Dubarry](mailto:anne-sophie.dubarry@univ-amu.fr) (based on previous versions developed by Arnaud Weill & Simon Moré)
 
 ## 📄 License
 
